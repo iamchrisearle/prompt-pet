@@ -57,20 +57,33 @@ _update_prompt_pet_face() {
     else
         # --- Command Failed ---
         
-        # Increment failure count and mark that we are in a failure streak
-        PROMPT_PET_FAILURE_COUNT=$((PROMPT_PET_FAILURE_COUNT + 1))
-        PROMPT_PET_HAD_FAILURE_STREAK=1
+        # Check for specific exit codes
+        case $last_status in
+            126) # "Command invoked cannot execute"
+                PROMPT_PET_CURRENT_FACE="ʕಠᴥಠʔ ಠ_ಠ ᶘಠᴥಠᶅ"
+                PROMPT_PET_FAILURE_COUNT=0 
+                PROMPT_PET_HAD_FAILURE_STREAK=0 
+                ;;
+            137) # 128 + 9 (SIGKILL / OOM Killer)
+                PROMPT_PET_CURRENT_FACE="[¬º-°]¬"
+                PROMPT_PET_FAILURE_COUNT=0 
+                PROMPT_PET_HAD_FAILURE_STREAK=0
+                ;;
+            *) # --- All Other General Failures ---
+               PROMPT_PET_FAILURE_COUNT=$((PROMPT_PET_FAILURE_COUNT + 1))
+               PROMPT_PET_HAD_FAILURE_STREAK=1
 
-        # Set face based on the number of *consecutive* failures
-        case $PROMPT_PET_FAILURE_COUNT in
-            1)  PROMPT_PET_CURRENT_FACE="( ಠ◡ಠ )" ;;
-            2)  PROMPT_PET_CURRENT_FACE="(>‘o’)>" ;;
-            3)  PROMPT_PET_CURRENT_FACE="(⋟﹏⋞)" ;;
-            4)  PROMPT_PET_CURRENT_FACE="ლ( \`Д’ ლ)" ;; # Backtick must be escaped
-            5|6|7|8|9)
-                PROMPT_PET_CURRENT_FACE="(╯°□°)╯︵ ┻━┻" ;; # Persists from 5-9
-            *)  # 10 or more
-                PROMPT_PET_CURRENT_FACE="┻━┻︵ \(°□°)/ ︵ ┻━┻" ;; # Parens must be escaped
+               case $PROMPT_PET_FAILURE_COUNT in
+                   1)  PROMPT_PET_CURRENT_FACE="( ಠ◡ಠ )" ;;
+                   2)  PROMPT_PET_CURRENT_FACE="(>‘o’)>" ;;
+                   3)  PROMPT_PET_CURRENT_FACE="(⋟﹏⋞)" ;;
+                   4)  PROMPT_PET_CURRENT_FACE="ლ( \`Д’ ლ)" ;;
+                   5|6|7|8|9)
+                       PROMPT_PET_CURRENT_FACE="(╯°□°)╯︵ ┻━┻" ;;
+                   *) # 10 or more
+                       PROMPT_PET_CURRENT_FACE="┻━┻︵ \(°□°)/ ︵ ┻━┻" ;;
+               esac
+               ;;
         esac
     fi
 }
