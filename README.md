@@ -82,6 +82,8 @@ prompt-pet default
 ---
 
 ### The Moods
+<details>
+  <summary>Click to reveal the available moods (Spoiler Alert!)</summary>
 
 | Condition | Face |
 | --- | --- |
@@ -96,6 +98,7 @@ prompt-pet default
 | **Memory Error (untested)** (Exit 137) | `[¬º-°]¬` |
 | **Permission Error (untested)** (Exit 126 or "sudoers") | `ʕಠᴥಠʔ ಠ_ಠ ᶘಠᴥಠᶅ` |
 
+</details>
 ---
 
 ### License
